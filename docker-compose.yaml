@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+    nginx:
+        build:
+            context: ./
+            dockerfile: ./docker/nginx/Dockerfile
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www/app
+        depends_on:
+            - php
+    php:
+        build:
+            context: docker/php-fpm
+            dockerfile: Dockerfile
+        volumes:
+            - ./:/var/www/app
+    mysql:
+        image: mysql:8.0
+        ports:
+            - "3316:3306"
+        environment:
+            MYSQL_DATABASE: wkaros
+            MYSQL_USER: wkaros
+            MYSQL_PASSWORD: jvhf84ytiubsh4GJK78
+            MYSQL_ROOT_PASSWORD: jvhf84ytiubsh4GJK78
+        volumes:
+            - mysql:/var/lib/mysql
+
+volumes:
+    mysql:
